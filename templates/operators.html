@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Service</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/style.css" type="text/css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css"
+		  href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.css" />
+	<link rel="stylesheet" type="text/css"
+		  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css"
+		  href="https://cdn.datatables.net/plug-ins/1.10.11/integration/font-awesome/dataTables.fontAwesome.css" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="static/js/paging.js"></script>
+  <script src="static/js/listOps.js"></script>
+  <script src="static/js/common.js"></script>
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$('#tableData').paging({limit:5});
+	});
+  </script>
+</head>
+<body>
+<header>
+    <h1>Operators</h1>
+</header>
+<div id="page">
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li><a href={{url_for('dashboard') }}>Home</a></li>
+    <li><a href={{url_for('list_secrets') }}>Secrets</a></li>
+    <li class="active"><a href="#">Operators</a></li>
+  </ul>
+</div>
+<ol class="breadcrumb">
+    <li><a href=href="{{url_for('dashboard') }}>Home</a></li>
+    <li class="current">Operators</li>
+</ol>
+<div class="col-lg-12" id="message_div"></div>
+<div class="left">
+	<input type="search" name="srch" id="srch" text="Search" style="position:absolute">
+</div>
+	<div class="col-lg-12">
+		<div class="row">
+			<table
+					class="tablesorter display ibm-data-table table table-striped table-bordered table-hover"
+					id="opsTable" cellspacing="0">
+				<thead>
+				<tr>
+					<th width="5%"><input id="all" name="select_all" value="1"
+										  type="checkbox"></th>
+					<th >Operator Name</th>
+					<th >Operator Path</th>
+					<th >Operator Source</th>
+					<th >Create Date</th>
+					<th >Actions</th>
+				</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	<a href={{ url_for('create_operator') }}><button type="button">Create operator</button></a>
+</div>
+
+<!-- Modal HTML Markup -->
+<form id="downloadModal" name="downloadModal" class="modal fade" role="dialog" method="post">
+	<div class="modal show" id="helm_modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title text-center text-danger">Download operator</h4>
+				</div><!-- /.modal-header -->
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="col-md-12 center-block text-left">
+							<label class="control-label">Local Path:</label>
+							<input class="form-control" id="dpath" type="text" placeholder="Local directory to download" value="" name="chart_name" required="required" />
+						</div>
+					</div>
+				</div><!-- /.modal-body -->
+				<div class="modal-footer">
+					<input class="btn btn-md btn-danger" id="downloadbutton" data-dismiss="modal" type="button" value="Download"/>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div><!-- /.modal-footer -->
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</form>
+</body>
+</html>

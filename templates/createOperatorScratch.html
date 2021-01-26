@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Operator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+    <script type="text/javascript" src="../static/js/scratch.js"></script>
+    <script type="text/javascript" src="../static/js/common.js"></script>
+</head>
+<body>
+<header>
+    <h1>Operators</h1>
+</header>
+<div id="full_page">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li><a href={{ url_for('dashboard') }}>Home</a></li>
+            <li><a href={{ url_for('list_secrets') }}>Secrets</a></li>
+            <li><a href={{ url_for('list_operators') }}>Operators</a></li>
+        </ul>
+    </div>
+    <ol class="breadcrumb">
+        <li><a href={{ url_for('dashboard') }}>Home</a></li>
+        <li><a href={{ url_for('list_operators') }}>Operators</a></li>
+        <li><a href={{ url_for('create_operator') }}>Create Operator</a></li>
+        <li class="current">Scratch</li>
+    </ol>
+    <div class="col-lg-12" id="message_div"></div><br />
+    <div class="title">
+        <div class="form-group">
+            <div class="col-md-12 center-block text-left">
+                <label class="control-label">Group Name:</label>
+                <input class="form-control" id="full_gname" type="text" placeholder="Group Name" value="" name="group_name" required="required" />
+                <label class="control-label">Domain Name:</label>
+                <input class="form-control" id="full_dname" type="text" placeholder="Domain Name" value="" name="domain_name" required="required" />
+                <label class="control-label">Version:</label>
+                <input class="form-control" id="full_vname" type="text" placeholder="Version" value="" name="version" required="required" />
+                <label class="control-label">Operator Name:</label>
+                <input class="form-control" id="full_operator_name" type="text" placeholder="Operator Name" value="" name="op_name" required="required"/>
+                <hr>
+                <label class="control-label">Kind:</label>
+                <input class="form-control" id="full_kind" type="text" placeholder="Kind" value="" name="kind" required="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 center-block text-left">
+                <div class="d-flex">
+                    <label class="control-label">Resource:</label>
+                    <select class="form-control" id="full_resourceType">
+                        <option value="Secret">Secret</option>
+                        <option value="ConfigMap">ConfigMap</option>
+                        <option value="PersistentVolumeClaim">PersistentVolumeClaim</option>
+                        <option value="Service">Service</option>
+                        <option value="Pod">Pod</option>
+                        <option value="Deployment">Deployment</option>
+                        <option value="StatefulSet">StatefulSet</option>
+                        <option value="Job">Job</option>
+                        <option value="Cronjob">Cronjob</option>
+                        <option value="Route">Route</option>
+                        <option value="NetworkPolicy">NetworkPolicy</option>
+                    </select>
+                    <br>
+                    <button type="button" id="full_addResource" class="btn btn-info pull-right" disabled="disabled">Add Resource</button>
+                    <br>
+                    <div class="col-lg-12" id="message_div2"></div><br/>
+                    <hr>
+                </div>
+                <div id="full_bar"></div>
+                <br>
+                <div class="buttons-div">
+                    <button type="button" id="full_createkind" class="btn btn-primary pull-right" disabled="disabled">Create Kind</button>
+                    <button type="button" id="full_createop" class="btn btn-success" disabled="disabled">Create Operator</button>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div id="full_container"></div>
+
+    <!-- Deployment Modal -->
+    <div class="modal fade" id="Deployment" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Deployment</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label">Deployment Name:</label>
+                            <input class="form-control deployment" id="dname" type="text" placeholder="Deployment Name" value="" name="Name" required="required" />
+                            <label class="control-label ">Port:</label>
+                            <input class="form-control deployment" id="port" type="text" placeholder="Port" value="" name="Port" required="required" />
+                            <label class="control-label">Image:</label>
+                            <input class="form-control deployment" id="image" type="text" placeholder="Image" value="" name="Image" required="required" />
+                            <label class="control-label">Label:</label>
+                            <input class="form-control deployment" id="label" type="text" placeholder="Label" value="" name="Label" required="required" />
+                            <label class="control-label">Replicas:</label>
+                            <input class="form-control deployment" id="replica" type="text" placeholder="Replicas" value="" name="Replicas" required="required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="dep_add">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div class="modal fade" id="Service" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Service</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label service">Service Name:</label>
+                            <input class="form-control" id="sname" type="text" placeholder="Service Name" value="" name="Name" required="required" />
+                            <label class="control-label service">Source Port:</label>
+                            <input class="form-control" id="sport" type="text" placeholder="Source Port" value="" name="Name" required="required" />
+                            <label class="control-label service">Target Port:</label>
+                            <input class="form-control" id="tport" type="text" placeholder="Target Port" value="" name="Name" required="required" />
+                            <label class="control-label service">POD selector label:</label>
+                            <input class="form-control" id="slabel" type="text" placeholder="POD selector Label" value="" name="Name" required="required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="service_add">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Route Modal -->
+    <div class="modal fade" id="Route" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Route</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label route">Route Name:</label>
+                            <input class="form-control" id="rname" type="text" placeholder="Route Name" value="" name="Route Name" required="required" />
+                            <label class="control-label route">Service Name:</label>
+                            <input class="form-control" id="servicename" type="text" placeholder="Service Name" value="" name="Service Name" required="required" />
+                            <label class="control-label route">Target Port:</label>
+                            <input class="form-control" id="targetport" type="text" placeholder="Target Port" value="" name="Target Port" required="required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="route_add">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Modal -->
+    <div class="modal fade" id="Secret" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Secret</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label">Name:</label>
+                            <input class="form-control" id="Secret_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="Secret_Add">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Map Modal -->
+    <div class="modal fade" id="ConfigMap" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create ConfigMap</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label">Name:</label>
+                            <input class="form-control" id="ConfigMap_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="ConfigMap_Add">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Config map Modal -->
+    <div class="modal fade" id="PersistentVolumeClaim" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create PersistentVolumeClaim</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label">Name:</label>
+                            <input class="form-control" id="PersistentVolumeClaim_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="PersistentVolumeClaim_Add">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- POD Modal -->
+    <div class="modal fade" id="Pod" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Pod</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label pod">Name:</label>
+                            <input class="form-control" id="Pod_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="Pod_Add">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

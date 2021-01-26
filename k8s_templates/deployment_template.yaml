@@ -1,0 +1,17 @@
+- name: Create deployment
+  k8s:
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: <name>
+        namespace: "{{ ansible_operator_meta.namespace }}"
+      spec:
+        selector:
+          matchLabels: {}
+        replicas: <replicas>
+        template:
+          metadata:
+            labels: {}
+          spec:
+            containers: []

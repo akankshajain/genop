@@ -13,6 +13,7 @@ from kubernetes import config as kube_configuration
 from kubernetes.client import configuration
 from kubernetes.client.rest import ApiException
 from kubernetes.stream import stream
+import subprocess
 
 
 class AttrDict(dict):
@@ -105,7 +106,7 @@ class Kubectl(object):
         configuration.assert_hostname = False
         self.api = client.CoreV1Api()
         self.appapi = client.AppsV1Api()
-
+        self.api_instance = client.ExtensionsV1beta1Api()
 
     def get(self, resource, object=None, field_selector="", label_selector=""):
         """
@@ -193,17 +194,45 @@ class Kubectl(object):
                                                            label_selector=label_selector, _preload_content=False).data)
             elif resource == "deployment":
                 if object:
-                    # Read one secret from a namespace
+                    # Read one deployment from a namespace
                     result = json.loads(self.appapi.read_namespaced_deployment(object, self.namespace,
                                                                         _preload_content=False).data,
                                         object_hook=AttrDict.object_hook)
                 else:
-                    # Read all secrets from a namespace
+                    # Read all deployments from a namespace
                     result = json.loads(
                         self.appapi.list_namespaced_deployment(self.namespace, field_selector=field_selector,
                                                         label_selector=label_selector,
                                                         _preload_content=False).data,
                         object_hook=AttrDict.object_hook)
+            elif resource == "service":
+                if object:
+                    # Read one deployment from a namespace
+                    result = json.loads(self.appapi.read_namespaced_deployment(object, self.namespace,
+                                                                               _preload_content=False).data,
+                                        object_hook=AttrDict.object_hook)
+                else:
+                    # Read all services from a namespace
+                    result = json.loads(
+                        self.api.list_namespaced_service(self.namespace, field_selector=field_selector,
+                                                               label_selector=label_selector,
+                                                               _preload_content=False).data,
+                        object_hook=AttrDict.object_hook)
+            elif resource == "route":
+                if object:
+                    # Read one route from a namespace
+                    result = json.loads(self.appapi.read_namespaced_deployment(object, self.namespace,
+                                                                               _preload_content=False).data,
+                                        object_hook=AttrDict.object_hook)
+                else:
+                    # Read all routes from a namespace
+                    result = subprocess.run(["kubectl", "get", "routes", "--output=name","-n","test-operator"], stdout=subprocess.PIPE)
+                    allroutes = result.stdout.decode("utf-8").split("\n")
+                    response = []
+                    for route in allroutes:
+                        if route != "":
+                            response.append(route)
+                    return response
             else:
                 raise RuntimeError("Invalid kubectl resource/wrapper not implemented")
         except ApiException as e:

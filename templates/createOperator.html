@@ -111,21 +111,42 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 center-block text-left">
-                                <label class="control-label">Deployment:</label>
-                                <select id="deployment">
-                                    <option value="dep">--DEPLOYMENT--</option>
-                                    <option value="dep1">deployment.extensions/zookeeper-server</option>
-                                    <option value="dep2">deployment.extensions/kafka-server</option>
-                                </select>
-                                <select id="service">
-                                    <option value="service">--SERVICE--</option>
-                                    <option value="service1">service/zookeeper</option>
-                                    <option value="service2">service/kafka</option>
-                                </select>
-                                <select id="route">
-                                    <option value="--ROUTES--">--ROUTES--"</option>
-                                    <option value="dep1">route.route.openshift.io/example</option>
-                                </select>
+                                <div id="dropdown-div" >
+                                    <select id="PersistentVolumeClaim">
+                                        <option value="PersistentVolumeClaim">--PVC--</option>
+                                        <option value="PersistentVolumeClaim1">mln0-0</option>
+                                        <option value="PersistentVolumeClaim2">mln0-0</option>
+                                    </select>
+                                   
+                                    <select id="ConfigMap">
+                                        <option value="ConfigMap">--CONFIGMAP--</option>
+                                        <option value="ConfigMap1">nodered</option>
+                                        <option value="ConfigMap2">kafka</option>
+                                        <option value="ConfigMap3">zookeper</option>
+                                    </select>
+                                   
+                                    <select id="Secret">
+                                        <option value="SECRET">--SECRET--</option>
+                                        <option value="dep1">dev</option>
+                                        <option value="prod">prod</option>
+                                    </select>
+                                 
+                                    <select id="StatefulSet">
+                                        <option value="STATEFULSET">--STATEFULSET--</option>
+                                        <option value="test">test</option>
+                                    </select>
+                                     
+                                    <select id="JOB">
+                                        <option value="JOB">--JOB--</option>
+                                        <option value="test">test</option>
+                                    </select> 
+                            
+                                    <select id="NetworkPolicy">
+                                        <option value="NetworkPolicy">--NetworkPolicy--</option>
+                                        <option value="test">test</option>
+                                    </select>
+                                    
+                                </div>
                                 <br>
                                 <div id="bar"></div>
                                 <br>

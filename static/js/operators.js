@@ -1,5 +1,27 @@
 $(document).ready(function() {
     var allkinds = [];
+
+    var deploymentsRes = {
+        "deployments": [
+        "deployment.apps/zookeper",
+        "deployment.apps/example",
+        "deployment.apps/kafka"
+        ]
+    };
+    var routesRes = {
+        "routes": [
+          "route.route.openshift.io/example",
+          "route.route.openshift.io/kafka"
+        ]
+    };
+    var servicesRes = {
+        "services": [
+          "service/example",
+          "service/kafka"
+        ]
+    }
+
+
     $('#createOperator').click(function   (event) {
         var optype = document.getElementById("createOp");
         if(optype.value == "helm"){
@@ -38,8 +60,24 @@ $(document).ready(function() {
             }
         }
     });
+    createDropdown(deploymentsRes);
+    createDropdown(routesRes);
+    createDropdown(servicesRes);
 });
 
+function createDropdown(response) {
+    var dropdown = Object.keys(response);
+    if(dropdown.length > 0){
+        var select = $("<select></select>").attr("id", dropdown[0]);
+        select.append($("<option></option>").attr("value", dropdown[0]).text('--'+dropdown[0].toUpperCase()+'--'));
+        $.each(response[dropdown[0]],function(index,val){
+            select.append($("<option></option>").attr("value", val).text(val));
+        }); 
+        
+        $("#dropdown-div").append(select);
+        $("#dropdown-div").append(' ');
+    }
+}
 
 function createExistOperator(kindsArray){
     console.log(JSON.stringify(kindsArray));

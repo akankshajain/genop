@@ -1,25 +1,53 @@
 $(document).ready(function() {
     var allkinds = [];
 
-    var deploymentsRes = {
-        "deployments": [
-        "deployment.apps/zookeper",
-        "deployment.apps/example",
-        "deployment.apps/kafka"
-        ]
-    };
-    var routesRes = {
-        "routes": [
-          "route.route.openshift.io/example",
-          "route.route.openshift.io/kafka"
-        ]
-    };
-    var servicesRes = {
-        "services": [
-          "service/example",
-          "service/kafka"
-        ]
-    }
+	$.ajax({
+		type : 'GET',
+		url :  'http://9.30.199.16:5000/deployments',
+		data : requestBody,
+		headers: {
+			'Content-Type':'application/json'
+		},
+		dataType : "json",
+		success : function(response){
+			deploymentsRes = response;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+		    console.log(textStatus)
+		}
+	});
+
+	$.ajax({
+		type : 'GET',
+		url :  'http://9.30.199.16:5000/services',
+		data : requestBody,
+		headers: {
+			'Content-Type':'application/json'
+		},
+		dataType : "json",
+		success : function(response){
+			servicesRes = response;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+		    console.log(textStatus)
+		}
+	});
+
+	$.ajax({
+		type : 'GET',
+		url :  'http://9.30.199.16:5000/routes',
+		data : requestBody,
+		headers: {
+			'Content-Type':'application/json'
+		},
+		dataType : "json",
+		success : function(response){
+			routesRes = response;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+		    console.log(textStatus)
+		}
+	});
 
 
     $('#createOperator').click(function   (event) {

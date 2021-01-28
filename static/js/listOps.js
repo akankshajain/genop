@@ -18,7 +18,7 @@ function listOperators(){
         $.each(operators, function (i, item) {
                trHTML += '<tr><td><input name=\"\" value=\"\" type=\"checkbox\"></td><td>' + item.oper_name +
                 '</td><td>' + item.oper_path + '</td><td>' + item.oper_source + '</td><td>' + item.create_time +
-                '</td><td><button class=\"btn btn-sm value=\"' + item.oper_name + '\" onclick=\"delete(this)\"><span class=\"glyphicon glyphicon-remove\"></span></button>&ensp;' +
+                '</td><td><button class=\"btn btn-sm\" value=\"' + item.oper_name + '\" onclick=\"deleteop(this)\"><span class=\"glyphicon glyphicon-remove\"></span></button>&ensp;' +
                 '<button class=\"btn btn-sm\" value=\"' + item.oper_name + '\" onclick=\"download(this)\"><span class=\"glyphicon glyphicon-download-alt\"></span></button>&ensp;' +
                 '<button class=\"btn btn-sm\" value=\"' + item.oper_name + '\" onclick=\"upload(this)\"><span class=\"glyphicon glyphicon-cloud-upload\">' +
                 '</span></button></td></tr>';
@@ -67,8 +67,9 @@ function download(objButton){
 
 }
 
-function upload(){
+function upload(objButton){
   var requestBody="{}";
+  $('#loadingmessage').show();
   var op_name = objButton.value;
 	$.ajax({
 		type : 'GET',
@@ -79,12 +80,14 @@ function upload(){
 		},
 		dataType : "json",
 		success : function(response){
+		    $('#loadingmessage').hide();
 			renderSuccessMessage(" Operator created on openshift successfully!");
-		}
+		},
 		error: function(jqXHR, textStatus, errorThrown) {
 		    console.log(textStatus)
 		    console.log(jqXHR)
 		    console.log(errorThrown)
+		    $('#loadingmessage').hide();
 		    renderSuccessMessage(" Operator created on openshift successfully!");
 			//displayConsoleMessages(jqXHR, textStatus, errorThrown);
 			//renderErrorMessage("There was some error fetching devices.");
@@ -92,8 +95,9 @@ function upload(){
 	});
 }
 
-function upload(){
+function deleteop(objButton){
   var requestBody="{}";
+  $('#loadingmessage').show();
   var op_name = objButton.value;
 	$.ajax({
 		type : 'GET',
@@ -104,12 +108,14 @@ function upload(){
 		},
 		dataType : "json",
 		success : function(response){
+		    $('#loadingmessage').hide();
 			renderSuccessMessage(" Operator deleted from openshift successfully!");
-		}
+		},
 		error: function(jqXHR, textStatus, errorThrown) {
 		    console.log(textStatus)
 		    console.log(jqXHR)
 		    console.log(errorThrown)
+		    $('#loadingmessage').hide();
 		    renderSuccessMessage(" Operator deleted from openshift successfully!");
 			//displayConsoleMessages(jqXHR, textStatus, errorThrown);
 			//renderErrorMessage("There was some error fetching devices.");

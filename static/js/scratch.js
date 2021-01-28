@@ -45,9 +45,12 @@ $(document).ready(function() {
         kinds.push(kind)
         resourcenames = []
         $('#full_bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + kindVal + '</button>');
+        $('#message_div2').removeClass("alert-success alert-danger alert-info");
+        $('#message_div2').hide();
     });
 
     $('#full_createop').click(function   (event) {
+        $('#loadingmessage').show();
         var grpName = $('#full_gname').val();
         var domainName = $('#full_dname').val();
         var version = $('#full_vname').val();
@@ -68,7 +71,8 @@ $(document).ready(function() {
     		},
     		dataType : "json",
     		success : function(data) {
-    	        renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+    		    $('#loadingmessage').hide();
+    	        renderSuccessMessage(" Operator added successfully at /root/operators/" + operatorName);
     		},
     		error: function(jqXHR, textStatus, errorThrown) {
     		    $('#loadingmessage').hide();

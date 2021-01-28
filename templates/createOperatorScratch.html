@@ -29,7 +29,6 @@
         <li><a href={{ url_for('create_operator') }}>Create Operator</a></li>
         <li class="current">Scratch</li>
     </ol>
-    <div class="col-lg-12" id="message_div"></div><br />
     <div class="title">
         <div class="form-group">
             <div class="col-md-12 center-block text-left">
@@ -76,6 +75,10 @@
                     <button type="button" id="full_createop" class="btn btn-success" disabled="disabled">Create Operator</button>
                 </div>
                 <br>
+                <div id='loadingmessage' style='display:none'>
+                    <img src='../static/images/loader.gif'/>
+                </div>
+                <div class="col-lg-12" id="message_div"></div><br />
             </div>
         </div>
     </div>

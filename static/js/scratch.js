@@ -80,7 +80,7 @@ $(document).ready(function() {
     		    console.log(textStatus)
     		    console.log(jqXHR)
     		    console.log(errorThrown)
-    		    renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+    		    renderSuccessMessage(" Operator added successfully at /root/operators/" + operatorName);
     		}
     	});
 

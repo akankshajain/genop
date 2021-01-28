@@ -1,6 +1,9 @@
-import datetime;
-import subprocess;
-import yaml;
+import datetime
+import os
+import subprocess
+import yaml
+from random import randint
+
 
 def helmoperator(helmrepo, helmchart, operatorname):
     result = subprocess.run(["helm", "repo", "add", "bitnami", helmrepo], stdout=subprocess.PIPE)
@@ -35,36 +38,35 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
                                  kind['name'].capitalize(), "--generate-role"], cwd=operatorDirectory,
                                 stdout=subprocess.PIPE)
         print("output %s" % result)
-        
+
         path = operatorDirectory + "/roles/" + kind['name'].lower() + "/tasks/main.yml"
         maindocument = []
         for resource in kind['resourcenames']:
             print("Creating code for " + resource)
-            #Execute the command to get a clean k8s resource -kubectl-neat get "$resource" -o yaml > temp.yml
-            result = subprocess.run(["sh", "createAnsibleCode.sh", resource, namespace],stdout=subprocess.PIPE)
-            
+            # Execute the command to get a clean k8s resource -kubectl-neat get "$resource" -o yaml > temp.yml
+            result = subprocess.run(["sh", "createAnsibleCode.sh", resource, namespace], stdout=subprocess.PIPE)
+
             with open('./temp.yaml') as file:
                 document = yaml.safe_load(file)
-                #Pre-fix the ansible task fields
+                # Pre-fix the ansible task fields
 
             if "deployment" in resource:
                 print("")
             elif "service" in resource:
-                removed=document["spec"].pop("clusterIP")
-                print("removed "+removed)
-                addrbacpermissions("services", operatorDirectory)  
-                
+                removed = document["spec"].pop("clusterIP")
+                print("removed " + removed)
+                addrbacpermissions("services", operatorDirectory)
+
             elif "route" in resource:
                 document["spec"].pop("host")
                 addrbacpermissions("routes", operatorDirectory)
-                
-            ansibledocument={ "name": "Create "+resource,"k8s":{"definition":document}}
-            #Add to main.yaml
-            maindocument.append(ansibledocument)            
-            
+
+            ansibledocument = {"name": "Create " + resource, "k8s": {"definition": document}}
+            # Add to main.yaml
+            maindocument.append(ansibledocument)
+
         with open(path, 'a') as f:
-            yaml.safe_dump(maindocument, f, default_style=None,default_flow_style=False)
-        
+            yaml.safe_dump(maindocument, f, default_style=None, default_flow_style=False)
 
     ct = datetime.datetime.now()
     date_time = ct.strftime("%m/%d/%Y %H:%M:%S")
@@ -123,7 +125,7 @@ def deployment(deploymentresource, path):
         item["k8s"]["definition"]["spec"]["template"]["spec"]["containers"].append(container)
 
     with open(path, 'a') as f:
-        yaml.safe_dump(document, f, default_style=None,default_flow_style=False)
+        yaml.safe_dump(document, f, default_style=None, default_flow_style=False)
     return 0
 
 
@@ -132,16 +134,16 @@ def service(serviceresource, path, operatorDirectory):
         document = yaml.safe_load(file)
     for item in document:
         appselector = [x.strip() for x in serviceresource["podselectorlabel"].split(':')]
-        ports={"protocol": "TCP", "port":serviceresource["sourceport"],"targetPort":serviceresource["targetport"]}
+        ports = {"protocol": "TCP", "port": serviceresource["sourceport"], "targetPort": serviceresource["targetport"]}
         item["k8s"]["definition"]["metadata"]["name"] = serviceresource["name"]
         item["k8s"]["definition"]["spec"]["selector"][appselector[0]] = appselector[1]
         item["k8s"]["definition"]["spec"]["ports"].append(ports)
 
     with open(path, 'a') as f:
         yaml.dump(document, f)
-        
+
     addrbacpermissions("services", operatorDirectory)
-    
+
     return 0
 
 
@@ -159,29 +161,67 @@ def route(routeresource, path, operatorDirectory):
         yaml.dump(document, f)
 
     addrbacpermissions("routes", operatorDirectory)
-      
+
     return 0
 
-def addrbacpermissions(resourcetype, operatorDirectory):
 
+def addrbacpermissions(resourcetype, operatorDirectory):
     ## Add the rbac permissions in config/rbac/
-    
-    with open(operatorDirectory+'/config/rbac/role.yaml') as fileroles:
+
+    with open(operatorDirectory + '/config/rbac/role.yaml') as fileroles:
         documentroles = yaml.safe_load(fileroles)
-    
-    found=False
+
+    found = False
     ##Check if permission already there 
     for roles in documentroles["rules"]:
         for resourcelist in roles["resources"]:
-           if resourcelist == resourcetype:
-               found=True
-               print("Found routes in config/rbac/roles.yaml. Not adding it again.")
-               break
-               
-    if found==False:
-        print("Adding permissions for "+resourcetype)
-        with open('./rbac_templates/'+resourcetype+'_rbac.yaml') as filetemplate:
+            if resourcelist == resourcetype:
+                found = True
+                print("Found routes in config/rbac/roles.yaml. Not adding it again.")
+                break
+
+    if found == False:
+        print("Adding permissions for " + resourcetype)
+        with open('./rbac_templates/' + resourcetype + '_rbac.yaml') as filetemplate:
             documenttemplate = yaml.safe_load(filetemplate)
         documentroles["rules"].append(documenttemplate)
-        with open(operatorDirectory+'/config/rbac/role.yaml', 'w') as fileroleswrite:
+        with open(operatorDirectory + '/config/rbac/role.yaml', 'w') as fileroleswrite:
             yaml.dump(documentroles, fileroleswrite)
+
+
+def delete_operator(operator):
+    result = subprocess.run(["ls", "/root/operators/" + operator + "/config/samples/"], stdout=subprocess.PIPE)
+    allfiles = result.stdout.decode("utf-8").split("\n")
+    os.chdir("/root/operators/" + operator)
+    for file in allfiles:
+        if file != "kustomization.yaml":
+            result = subprocess.run(["oc", "delete", "-f", "config/samples/" + file, "-n", operator + "-system"],
+                                    stdout=subprocess.PIPE)
+            print("output %s" % result)
+            subprocess.run(["make", "undeploy"], stdout=subprocess.PIPE)
+            print("output %s" % result)
+            break
+    return 0
+
+
+def deploy_operator(operator):
+    result = subprocess.run(["ls", "/root/operators/" + operator + "/config/samples/"], stdout=subprocess.PIPE)
+    allfiles = result.stdout.decode("utf-8").split("\n")
+    os.chdir("/root/operators/" + operator)
+    for file in allfiles:
+        if file != "kustomization.yaml":
+            config_file = file
+            break
+    version = str(randint(30, 99))
+    img_string = "IMG=quay.io/growthstack/node-operator:0.0." + version
+    print(img_string)
+    result = subprocess.run(["make", "docker-build", "docker-push", img_string], stdout=subprocess.PIPE)
+    print("output %s" % result)
+    subprocess.run(["make", "install"], stdout=subprocess.PIPE)
+    print("output %s" % result)
+    result = subprocess.run(["make", "deploy", img_string], stdout=subprocess.PIPE)
+    print("output %s" % result)
+    result = subprocess.run(["oc", "create", "-f", "config/samples/" + config_file, "-n", operator + "-system"],
+                            stdout=subprocess.PIPE)
+    print("output %s" % result)
+    return 0

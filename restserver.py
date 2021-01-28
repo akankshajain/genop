@@ -95,6 +95,22 @@ def listRoutes():
     all_routes = k.get("route")
     return jsonify({"routes": all_routes})
 
+# Delete operator
+@app.route('/delete', methods=['GET'])
+def deleteOp():
+    operator = request.args.get('operator')
+    genoperator.delete_operator(operator)
+    return jsonify({})
+
+
+# Deploy operator
+@app.route('/deploy', methods=['GET'])
+def deployOp():
+    operator = request.args.get('operator')
+    genoperator.deploy_operator(operator)
+    return jsonify({})
+
+
 
 ####################Front end Routes########################
 

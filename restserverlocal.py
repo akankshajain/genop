@@ -13,7 +13,7 @@ cors = CORS(app, resources={r"/download": {"origins": "http://localhost:5000"}})
 
 @app.route('/download', methods=['POST'])
 @cross_origin(origin='localhost', headers=['Content-Type', 'application/json'])
-def create_oper():
+def download_operator():
     # curl -i -H "Content-Type: application/json" -X POST -d '{"operator":"nodered-operator-demo","path":"/c/dashdbrepos"}' http://localhost:5000/download
     data = request.get_json()
     client = paramiko.SSHClient()

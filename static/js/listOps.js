@@ -18,9 +18,9 @@ function listOperators(){
         $.each(operators, function (i, item) {
                trHTML += '<tr><td><input name=\"\" value=\"\" type=\"checkbox\"></td><td>' + item.oper_name +
                 '</td><td>' + item.oper_path + '</td><td>' + item.oper_source + '</td><td>' + item.create_time +
-                '</td><td><button class=\"btn btn-sm\"><span class=\"glyphicon glyphicon-edit\"></span></button>&ensp;' +
+                '</td><td><button class=\"btn btn-sm value=\"' + item.oper_name + '\" onclick=\"delete(this)\"><span class=\"glyphicon glyphicon-remove\"></span></button>&ensp;' +
                 '<button class=\"btn btn-sm\" value=\"' + item.oper_name + '\" onclick=\"download(this)\"><span class=\"glyphicon glyphicon-download-alt\"></span></button>&ensp;' +
-                '<button class=\"btn btn-sm\"><span class=\"glyphicon glyphicon-cloud-upload\">' +
+                '<button class=\"btn btn-sm\" value=\"' + item.oper_name + '\" onclick=\"upload(this)\"><span class=\"glyphicon glyphicon-cloud-upload\">' +
                 '</span></button></td></tr>';
         });
                $('#opsTable').append(trHTML);
@@ -60,9 +60,59 @@ function download(objButton){
 		        console.log(textStatus)
 		        console.log(jqXHR)
 		        console.log(errorThrown)
-		        renderSuccessMessage(" Operator added successfully at " + path);
+		        renderSuccessMessage(" Operator downloaded successfully at " + path);
 		}
 	});
    });
 
+}
+
+function upload(){
+  var requestBody="{}";
+  var op_name = objButton.value;
+	$.ajax({
+		type : 'GET',
+		url :  'http://9.30.199.16:5000/deploy?operator=' + op_name,
+		data : requestBody,
+		headers: {
+			'Content-Type':'application/json'
+		},
+		dataType : "json",
+		success : function(response){
+			renderSuccessMessage(" Operator created on openshift successfully!");
+		}
+		error: function(jqXHR, textStatus, errorThrown) {
+		    console.log(textStatus)
+		    console.log(jqXHR)
+		    console.log(errorThrown)
+		    renderSuccessMessage(" Operator created on openshift successfully!");
+			//displayConsoleMessages(jqXHR, textStatus, errorThrown);
+			//renderErrorMessage("There was some error fetching devices.");
+		}
+	});
+}
+
+function upload(){
+  var requestBody="{}";
+  var op_name = objButton.value;
+	$.ajax({
+		type : 'GET',
+		url :  'http://9.30.199.16:5000/delete?operator=' + op_name,
+		data : requestBody,
+		headers: {
+			'Content-Type':'application/json'
+		},
+		dataType : "json",
+		success : function(response){
+			renderSuccessMessage(" Operator deleted from openshift successfully!");
+		}
+		error: function(jqXHR, textStatus, errorThrown) {
+		    console.log(textStatus)
+		    console.log(jqXHR)
+		    console.log(errorThrown)
+		    renderSuccessMessage(" Operator deleted from openshift successfully!");
+			//displayConsoleMessages(jqXHR, textStatus, errorThrown);
+			//renderErrorMessage("There was some error fetching devices.");
+		}
+	});
 }

@@ -158,12 +158,12 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="col-md-12 center-block text-left">
-                            <label class="control-label route">Route Name:</label>
-                            <input class="form-control" id="rname" type="text" placeholder="Route Name" value="" name="Route Name" required="required" />
-                            <label class="control-label route">Service Name:</label>
-                            <input class="form-control" id="servicename" type="text" placeholder="Service Name" value="" name="Service Name" required="required" />
-                            <label class="control-label route">Target Port:</label>
-                            <input class="form-control" id="targetport" type="text" placeholder="Target Port" value="" name="Target Port" required="required" />
+                            <label class="control-label">Route Name:</label>
+                            <input class="form-control route" id="rname" type="text" placeholder="Route Name" value="" name="Route Name" required="required" />
+                            <label class="control-label">Service Name:</label>
+                            <input class="form-control route" id="servicename" type="text" placeholder="Service Name" value="" name="Service Name" required="required" />
+                            <label class="control-label">Target Port:</label>
+                            <input class="form-control route" id="targetport" type="text" placeholder="Target Port" value="" name="Target Port" required="required" />
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,19 @@
                     <div class="form-group">
                         <div class="col-md-12 center-block text-left">
                             <label class="control-label">Name:</label>
-                            <input class="form-control" id="PersistentVolumeClaim_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                            <input class="form-control pvc" id="PersistentVolumeClaim_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                        </div>
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label">Storage Class Name:</label>
+                            <input class="form-control pvc" id="PersistentVolumeClaim_SCName" type="text" placeholder="Storage Class Name" value="" name="Storage Class Name" required="required" />
+                        </div>
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label">Access Modes:</label>
+                            <input class="form-control pvc" id="PersistentVolumeClaim_AModes" type="text" placeholder="Access Modes" value="" name="Access Modes" required="required" />
+                        </div>
+                        <div class="col-md-12 center-block text-left">
+                            <label class="control-label">Storage:</label>
+                            <input class="form-control pvc" id="PersistentVolumeClaim_Storage" type="text" placeholder="Storage" value="" name="Storage" required="required" />
                         </div>
                     </div>
                 </div>
@@ -262,7 +274,47 @@
                     <div class="form-group">
                         <div class="col-md-12 center-block text-left">
                             <label class="control-label pod">Name:</label>
-                            <input class="form-control" id="Pod_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                            <input class="form-control pod-data" id="Pod_Name" type="text" placeholder="Name" value="" name="Name" required="required" />
+                        </div><hr />
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Memory:</label>
+                            <input class="form-control pod-data" id="Pod_Memory" type="text" placeholder="Memory" value="" name="Memory" required="required" />
+                        </div>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">CPU:</label>
+                            <input class="form-control pod-data" id="Pod_CPU" type="text" placeholder="CPU" value="" name="CPU" required="required" />
+                        </div><hr/>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Volume Name:</label>
+                            <input class="form-control pod-data" id="Pod_VolName" type="text" placeholder="Volume Name" value="" name="Volume Name" required="required" />
+                        </div>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Claim Name:</label>
+                            <input class="form-control pod-data" id="Pod_ClaimName" type="text" placeholder="Claim Name" value="" name="Claim Name" required="required" />
+                        </div><hr/>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Container Name:</label>
+                            <input class="form-control pod-data" id="Pod_ConName" type="text" placeholder="Container Name" value="" name="Container Name" required="required" />
+                        </div>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Image:</label>
+                            <input class="form-control pod-data" id="Pod_Image" type="text" placeholder="Image" value="" name="Image" required="required" />
+                        </div>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Port Name:</label>
+                            <input class="form-control pod-data" id="Pod_PortName" type="text" placeholder="Port Name" value="" name="Port Name" required="required" />
+                        </div>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Port Value:</label>
+                            <input class="form-control pod-data" id="Pod_PortVal" type="text" placeholder="Port Value" value="" name="Port Value" required="required" />
+                        </div><hr/>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Volume Mount Name:</label>
+                            <input class="form-control pod-data" id="Pod_MountName" type="text" placeholder="Volume mount" value="" name="volume mount" required="required" />
+                        </div>
+                        <div class="col-md-6 center-block text-left">
+                            <label class="control-label pod">Mount Path:</label>
+                            <input class="form-control pod-data" id="Pod_MountPath" type="text" placeholder="Mount Path" value="" name="Mount Path" required="required" />
                         </div>
                     </div>
                 </div>

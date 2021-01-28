@@ -41,7 +41,7 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
         for resource in kind['resourcenames']:
             print("Creating code for " + resource)
             #Execute the command to get a clean k8s resource -kubectl-neat get "$resource" -o yaml > temp.yml
-            result = subprocess.run(["sh", "createAnsibleCode.sh", resource,namespace],stdout=subprocess.PIPE)
+            result = subprocess.run(["sh", "createAnsibleCode.sh", resource, namespace],stdout=subprocess.PIPE)
             
             with open('./temp.yaml') as file:
                 document = yaml.safe_load(file)
@@ -50,11 +50,12 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
             if "deployment" in resource:
                 print("")
             elif "service" in resource:
-                del document["spec"]["clusterIP"]
+                removed=document["spec"].pop("clusterIP")
+                print("removed "+removed)
                 addrbacpermissions("services", operatorDirectory)  
                 
             elif "route" in resource:
-                del document["spec"][""]
+                document["spec"].pop("host")
                 addrbacpermissions("routes", operatorDirectory)
                 
             ansibledocument={ "name": "Create "+resource,"k8s":{"definition":document}}

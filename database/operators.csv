@@ -1,6 +1,3 @@
-kafka,helm,timestamp,/root/operators/kafka
-kafka1,helm,timestamp,/root/operators/kafka1
-kafka-operator-3,helm,01/14/2021 08:39:57,/root/operators/kafka-operator-3
 nodered-operator-demo-24,from scratch,01/24/2021 01:57:26,/root/operators/nodered-operator-demo-24
 nodered-operator-demo-24,from scratch,01/24/2021 02:00:28,/root/operators/nodered-operator-demo-24
 nodered-operator-demo-24,from scratch,01/24/2021 02:07:48,/root/operators/nodered-operator-demo-24
@@ -9,3 +6,17 @@ nodered-operator-demo-24,from scratch,01/24/2021 03:46:03,/root/operators/nodere
 nodered-operator-demo-24,from scratch,01/24/2021 03:52:09,/root/operators/nodered-operator-demo-24
 kafka-operator-demo-25,from kubernetes,01/25/2021 02:09:15,/root/operators/kafka-operator-demo-25
 kafka-operator-demo-25,from kubernetes,01/25/2021 03:01:12,/root/operators/kafka-operator-demo-25
+dry-helm,helm,01/28/2021 05:51:26,/root/operators/dry-helm
+nodered,from scratch,01/28/2021 06:06:30,/root/operators/nodered
+dryscratch,from scratch,01/28/2021 07:02:15,/root/operators/dryscratch
+geno-nodered,from scratch,01/28/2021 07:33:06,/root/operators/geno-nodered
+kafka-test,from kubernetes,01/28/2021 08:35:29,/root/operators/kafka-test
+kafka-test-2,from kubernetes,01/28/2021 08:37:25,/root/operators/kafka-test-2
+kafka-test-2,from kubernetes,01/28/2021 08:37:25,/root/operators/kafka-test-2
+kafka-test-2,from kubernetes,01/28/2021 08:37:27,/root/operators/kafka-test-2
+kafka-test-2,from kubernetes,01/28/2021 08:37:27,/root/operators/kafka-test-2
+kafka-test-2,from kubernetes,01/28/2021 08:37:28,/root/operators/kafka-test-2
+kafka-test-2,from kubernetes,01/28/2021 08:37:28,/root/operators/kafka-test-2
+kafka-test-2,from kubernetes,01/28/2021 08:37:28,/root/operators/kafka-test-2
+kafka-test-2,from kubernetes,01/28/2021 08:37:28,/root/operators/kafka-test-2
+kafka-operator-demo-28-1,from kubernetes,01/28/2021 08:47:48,/root/operators/kafka-operator-demo-28-1

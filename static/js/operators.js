@@ -4,13 +4,14 @@ $(document).ready(function() {
 	$.ajax({
 		type : 'GET',
 		url :  'http://9.30.199.16:5000/deployments',
-		data : requestBody,
+		data : {},
 		headers: {
 			'Content-Type':'application/json'
 		},
 		dataType : "json",
 		success : function(response){
 			deploymentsRes = response;
+			createDropdown(deploymentsRes);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 		    console.log(textStatus)
@@ -20,13 +21,14 @@ $(document).ready(function() {
 	$.ajax({
 		type : 'GET',
 		url :  'http://9.30.199.16:5000/services',
-		data : requestBody,
+		data : {},
 		headers: {
 			'Content-Type':'application/json'
 		},
 		dataType : "json",
 		success : function(response){
 			servicesRes = response;
+			createDropdown(servicesRes);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 		    console.log(textStatus)
@@ -36,19 +38,19 @@ $(document).ready(function() {
 	$.ajax({
 		type : 'GET',
 		url :  'http://9.30.199.16:5000/routes',
-		data : requestBody,
+		data : {},
 		headers: {
 			'Content-Type':'application/json'
 		},
 		dataType : "json",
 		success : function(response){
 			routesRes = response;
+			createDropdown(routesRes);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 		    console.log(textStatus)
 		}
 	});
-
 
     $('#createOperator').click(function   (event) {
         var optype = document.getElementById("createOp");
@@ -64,9 +66,9 @@ $(document).ready(function() {
                     var kindict = {}
                     resourcearay = []
                     var kind = $("#kind").val();
-                    var dep = document.getElementById("deployment");
+                    var dep = document.getElementById("deployments");
                     var selectionDeployment = dep.options[dep.selectedIndex].text;
-                    var ser = document.getElementById("service");
+                    var ser = document.getElementById("services");
                     var selectionService = ser.options[ser.selectedIndex].text;
                     resourcearay.push(selectionDeployment, selectionService)
                     kindict = {
@@ -88,9 +90,7 @@ $(document).ready(function() {
             }
         }
     });
-    createDropdown(deploymentsRes);
-    createDropdown(routesRes);
-    createDropdown(servicesRes);
+
 });
 
 function createDropdown(response) {

@@ -149,16 +149,35 @@ $(document).ready(function() {
 
     $('#PersistentVolumeClaim_Add').click(function   (event) {
         PersistentVolumeClaim = {
-            name : $('#PersistentVolumeClaim_Name').val()
+            name : $('#PersistentVolumeClaim_Name').val(),
+            storageClassName :$('#PersistentVolumeClaim_SCName').val(),
+            accessModes :$('#PersistentVolumeClaim_AModes').val(),
+            storage : $('#PersistentVolumeClaim_Storage').val()
         }
-        $('#PersistentVolumeClaim_Name').val('');
+        $('.pvc').val('');
+        resourcenames.push(PersistentVolumeClaim);
+        var kindVal = $('#full_kind').val();
+        renderSuccessMessage2("Added Route resource to kind " + kindVal + ".");
     });
 
     $('#Pod_Add').click(function   (event) {
         Pod = {
-            name : $('#Pod_Name').val()
+            name : $('#Pod_Name').val(),
+            memory : $('#Pod_Memory').val(),
+            cpu: $('#Pod_CPU').val(),
+            volumename: $('#Pod_VolName').val(),
+            claimname: $('#Pod_ClaimName').val(),
+            containername: $('#Pod_ConName').val(),
+            image: $('#Pod_Image').val(),
+            portname: $('#Pod_PortName').val(),
+            portvalue: $('#Pod_PortVal').val(),
+            volumemountname : $('#Pod_MountName').val(),
+            mountPath: $('#Pod_MountPath').val(),
         }
-        $('#Pod_Name').val('');
+        $('.pod-data').val('');
+        resourcenames.push(Pod);
+        var kindVal = $('#full_kind').val();
+        renderSuccessMessage2("Added Route resource to kind " + kindVal + ".");
     });
 
 

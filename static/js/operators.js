@@ -135,7 +135,7 @@ function createExistOperator(kindsArray){
 		},
 		dataType : "json",
 		success : function(data) {
-			renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+			renderSuccessMessage(" Operator added successfully at /root/operators/" + operator_name.value);
 			$("#createExistModal").modal('hide');
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -144,7 +144,7 @@ function createExistOperator(kindsArray){
 		    console.log(textStatus)
 		    console.log(jqXHR)
 		    console.log(errorThrown)
-			renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+			renderSuccessMessage(" Operator added successfully at /root/operators/" + operator_name.value);
 			$("#createExistModal").modal('hide');
 		}
 	});

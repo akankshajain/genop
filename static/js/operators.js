@@ -1,6 +1,10 @@
 $(document).ready(function() {
     var allkinds = [];
 
+	$('#closeCreateOpex').click(function   (event) {
+		$("#createExistModal").modal('hide');
+    });
+
 	$.ajax({
 		type : 'GET',
 		url :  'http://9.30.199.16:5000/deployments',
@@ -81,16 +85,17 @@ $(document).ready(function() {
 
                 // create final operator
                 $('#createOpex').click(function   (event) {
-                    createExistOperator(kindsArray);
+					createExistOperator(kindsArray);
+					$("#createExistModal").modal('hide');
                      }); //---createOpex click over----
-                }
+				}
             else{
                 // Open page for create an operator from scratch
                 location.href = 'scratch';
             }
         }
-    });
-
+	});
+	
 });
 
 function createDropdown(response) {
@@ -130,7 +135,8 @@ function createExistOperator(kindsArray){
 		},
 		dataType : "json",
 		success : function(data) {
-	        renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+			renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+			$("#createExistModal").modal('hide');
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 		    $('#loadingmessage').hide();
@@ -138,7 +144,8 @@ function createExistOperator(kindsArray){
 		    console.log(textStatus)
 		    console.log(jqXHR)
 		    console.log(errorThrown)
-		    renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+			renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+			$("#createExistModal").modal('hide');
 		}
 	});
 }

@@ -7,11 +7,17 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="static/css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../static/css/style.css" type="text/css" />
 </head>
 <body>
  <header>
-    <h1>Welcome !!</h1>
+  <div style="display: flex;">
+      <h1 style="flex: 5;">Welcome !!</h1>
+      <select style="flex: 1; height: 4rem; margin-top: 2rem;background: linear-gradient(#29a3f7, #353f54);" name="type" id="type">
+          <option value="POC" style="color: black;" selected>POC</option>
+          <option value="DEV" style="color: black;">DEV</option>
+      </select>
+  </div>
   </header>
 <div class="container">
   <ul class="nav nav-tabs">

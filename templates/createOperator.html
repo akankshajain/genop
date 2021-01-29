@@ -13,8 +13,14 @@
 </head>
 <body>
  <header>
-    <h1>Create operator</h1>
-  </header>
+    <div style="display: flex;">
+    <h1 style="flex: 5;">Create operator</h1>
+    <select style="flex: 1; height: 4rem; margin-top: 2rem;background: linear-gradient(#29a3f7, #353f54);" name="type" id="type">
+        <option value="POC" style="color: black;" selected>POC</option>
+        <option value="DEV" style="color: black;">DEV</option>
+    </select>
+    </div>
+</header>
 <div class="container">
     <ul class="nav nav-tabs">
         <li><a href={{ url_for('dashboard') }}>Home</a></li>

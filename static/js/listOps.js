@@ -52,7 +52,7 @@ function download(objButton){
 		    },
 		    dataType : "json",
 		    success : function(data) {
-	            renderSuccessMessage(" Operator downloaded successfully at " + path);
+	            renderSuccessMessage(" Operator downloaded successfully at " + path.value);
 		    },
 		    error: function(jqXHR, textStatus, errorThrown) {
 
@@ -60,7 +60,7 @@ function download(objButton){
 		        console.log(textStatus)
 		        console.log(jqXHR)
 		        console.log(errorThrown)
-		        renderSuccessMessage(" Operator downloaded successfully at " + path);
+		        renderSuccessMessage(" Operator downloaded successfully at " + path.value);
 		}
 	});
    });

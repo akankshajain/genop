@@ -30,6 +30,7 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
     result = subprocess.run(["operator-sdk", "init", "--plugins=ansible", "--domain", domainname],
                             cwd=operatorDirectory, stdout=subprocess.PIPE)
     print("output %s" % result)
+
     # print(kinds)
     # Create each kind given in "kinds" list
     for kind in kinds:
@@ -49,6 +50,8 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
             with open('./temp.yaml') as file:
                 document = yaml.safe_load(file)
                 # Pre-fix the ansible task fields
+            
+            document["metadata"]["namespace"]= "{{ ansible_operator_meta.namespace }}"
 
             if "deployment" in resource:
                 print("")
@@ -58,7 +61,8 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
                 addrbacpermissions("services", operatorDirectory)
 
             elif "route" in resource:
-                document["spec"].pop("host")
+                removedip = document["spec"].pop("host")
+                print("removed route host "+removedip)
                 addrbacpermissions("routes", operatorDirectory)
 
             ansibledocument = {"name": "Create " + resource, "k8s": {"definition": document}}
@@ -67,11 +71,12 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
 
         with open(path, 'a') as f:
             yaml.safe_dump(maindocument, f, default_style=None, default_flow_style=False)
-
+    
     ct = datetime.datetime.now()
     date_time = ct.strftime("%m/%d/%Y %H:%M:%S")
     with open('database/operators.csv', 'a') as f:
         f.write(operatorname + ",from kubernetes," + date_time + "," + operatorDirectory + "\n")
+
     return
 
 
@@ -177,7 +182,7 @@ def addrbacpermissions(resourcetype, operatorDirectory):
         for resourcelist in roles["resources"]:
             if resourcelist == resourcetype:
                 found = True
-                print("Found routes in config/rbac/roles.yaml. Not adding it again.")
+                print("Found "+resourcetype+" in config/rbac/roles.yaml. Not adding it again.")
                 break
 
     if found == False:

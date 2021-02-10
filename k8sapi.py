@@ -79,8 +79,8 @@ k.get("secrets", "builder-token-cjhxv")
 k.get("pods")
 k.get("deployment")
 
-k = Kubectl(ns='test-operator')
-k.get("deployment","test")
+k = Kubectl(ns='varsha-3')
+k.get("deployment")
 
 """
 class Kubectl(object):
@@ -93,7 +93,7 @@ class Kubectl(object):
     :type ns: str
     """
 
-    def __init__(self, config='~/.kube/config', ns='test-operator', exe=None):
+    def __init__(self, config='~/.kube/config', ns='varsha-3', exe=None):
         """
         :param config str: The kubeconfig to be used with this, defaults to [$HOME/.kube/config]
         :param ns str: The namespace to be used with this, defaults to [default]
@@ -226,7 +226,7 @@ class Kubectl(object):
                                         object_hook=AttrDict.object_hook)
                 else:
                     # Read all routes from a namespace
-                    result = subprocess.run(["kubectl", "get", "routes", "--output=name","-n","test-operator"], stdout=subprocess.PIPE)
+                    result = subprocess.run(["kubectl", "get", "routes", "--output=name","-n","varsha-3"], stdout=subprocess.PIPE)
                     allroutes = result.stdout.decode("utf-8").split("\n")
                     response = []
                     for route in allroutes:
